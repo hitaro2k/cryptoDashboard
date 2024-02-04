@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class = " wrapper">
+        <form action="/login-handler" method="post" class="form-login">
+            <div class="input-wrapper">
+                <p class="title">Login</p>
+                <input type="text" class="input-mail"  id="email" name="email" placeholder="Mail" required>
+                <input type="password" class="input-pass" id="password" name="password" placeholder="Password" required>
+            </div>
+
+            <p class="subtitle btn-reg">Зарегистрироваться</p>
+            <button class="button" data-id="login">Login</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

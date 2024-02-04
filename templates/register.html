@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>+</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <form action="{{ url_for('register_handler') }}" class="form-register" method="post">
+            <div class="input-wrapper">
+                <p class="title">Register</p>
+                    <input type="text" id="name-reg" name="name-reg" class="input-name" placeholder="Name" required>
+                <input type="email" id="email-reg" name="email-reg" class="input-mail" placeholder="Mail" required>
+                <input type="password" id="password-reg" name="password-reg" class="input-pass" placeholder="Password" required>
+                <input type="password" id="rep_pass-reg" name="rep_pass-reg" class="input-pass" placeholder="Repeat password" required>
+            </div>
+            <p class="subtitle btn-login">Залогиниться</p>
+            <button class="button" data-id="login">Register</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

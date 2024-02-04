@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="container">
+            <div class="search-stroke">
+                <div class="top">
+                    <img class="search-img" src="{{ url_for('static', filename='img/search.png') }}">
+                    <input id="user-input" class="title" placeholder="Search assets and transactions">
+
+                    <p class="name"> {{ name }} </p>
+                    <p class="idusers"> {{ idusers }}</p>
+
+                </div>
+
+                 <ul class="search-stroke__list"></ul>
+            </div>
+
+             <div class="wrapper-box">
+                 <h2 class="title">Cryptocurrencies</h2>
+                 <p class="subtitle">Your crypto which one you had in your account</p>
+                 <div class="wrapper-crypto">
+                     {% for crypto_info in crypto_info_list %}
+                        <div class="crypto-info">
+                            <img class="crypto-img" src="{{ crypto_info.image_url }}" alt="{{ crypto_info.name }} Image">
+                        </div>
+                    {% endfor %}
+                     <div class="add-title title-transaction__adder ">
+                         <img class="img-add" src="{{ url_for('static', filename='img/plus.png') }}">
+                         <p class="title">Добавить транзакцию</p>
+                     </div>
+                 </div>
+
+            </div>
+
+            <div class="user-data">
+                <div class="box__current-balance">
+                    <div class="top">
+                        <div class="title-current">
+                            <h3 class="title">Current Balance</h3>
+                            <p id="totalValue" class="price-title"></p>
+                        </div>
+                        <p class="title"></p>
+
+                    </div>
+
+                    <button class="button">Connect Wallet</button>
+                </div>
+
+                <div class="box__total-sell">
+                     <div class="title-current">
+                            <h3 class="title">Total Sell</h3>
+                            <p class="price-title">--$</p>
+                     </div>
+
+                </div>
+
+                <div class="box__total-buy">
+                      <div class="title-current">
+                            <h3 class="title">Total Buy</h3>
+                            <p class="price-title">--$</p>
+                     </div>
+
+                </div>
+
+                <div class="box__total"></div>
+            </div>
+
+            <div class="container-box">
+                <div class="crypto-box  assets-box">
+                    <div class="titles-box">
+                        <h3 class="title">Assets</h3>
+                        <h3 class="title-name">Name</h3>
+                        <h3 class="title-price">Current Price</h3>
+                        <h3 class="title-change_price">Price Change (24h)</h3>
+                    </div>
+
+                     {% for crypto_info in crypto_info_list %}
+                        <div class="crypto-info crypto-table">
+                            <img class="crypto-img" src="{{ crypto_info.image_url }}" alt="{{ crypto_info.name }} Image">
+                            <h1 class="title">{{ crypto_info.name }}</h1>
+                            <p class="current_price-title">${{ crypto_info.current_price|float|round(2, 'floor') }}</p>
+                            <p class="change_price-title">{{ crypto_info.price_change_24h|float|round(2, 'floor') }} %</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="crypto-box recent-box">
+                      <h3  style="color: white; font-weight: normal;" class="title recent-title">Recent Opeartions</h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="add_transaction">
+            <div class="transaction_block set-money">
+                <div class="top">
+                     <h4 class="title">Select Coin</h4>
+                    <img src="{{ url_for('static', filename='img/close.png') }}" class="close-popup" >
+                </div>
+
+                <div class="transaction_search-block">
+                      <input type="text" class="search-transaction" placeholder="Search">
+                </div>
+
+                <div class="coins">
+                    {% for crypto_assets in crypto_assets_info_list %}
+                        <div class="crypto-info crypto-img crypto-assets">
+                            <img class="crypto-img" src="{{ crypto_assets.image_url }}" alt="{{ crypto_assets.name }} Image">
+                            <h1 class="title">{{  crypto_assets.name }}</h1>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="select__transaction-options">
+                <div class="select__transaction-title">
+                     <h3 class="title">Add Transaction</h3>
+                     <img src="{{ url_for('static', filename='img/close.png') }}" class="close-popup" >
+                </div>
+                    <div class="setbar">
+                        <ul class="setbar-list">
+                            <li class="list-item setbar-item">Buy</li>
+                            <li class="list-item setbar-item">Sell</li>
+                            <li class="list-item setbar-item">Transfer</li>
+                        </ul>
+                    </div>
+
+                    <form class="buy-block">
+                        <div class="crypto-item ">
+                            <img class="buy-block__crypto-image" src="">
+                            <h2 class="buy-block__crypto-title"></h2>
+                        </div>
+
+                        <div class="price-quantity">
+                            <div class="quantity">
+                                <h3 class="title">Quantity</h3>
+                                <div class="input-wrapper">
+                                    <input placeholder="0.00" class="input-quantity" type="number">
+                                </div>
+                            </div>
+                            <div class="price">
+                                 <h3 class="title">Price Per Coin</h3>
+                                <div class="input-wrapper">
+                                    <p class="input-price"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="data-fee-notes">
+                            <div class="data"></div>
+                            <div class="fee">Fee</div>
+                             <div class="notes">Notes</div>
+                        </div>
+
+                         <div class="spent-box">
+                            <h3 class="title">Total Spent</h3>
+                            <div class="total-spent">0$</div>
+                        </div>
+
+                    </form>
+
+                    <div class="sell-block">
+                        <div class="crypto-item ">
+                            <img class="buy-block__crypto-image" src="">
+                            <h2 class="buy-block__crypto-title"></h2>
+                        </div>
+
+                        <div class="price-quantity">
+                            <div class="quantity">
+                                <h3 class="title">Quantity</h3>
+                                <div class="input-wrapper">
+                                    <input placeholder="0.00" class="input-quantity" type="number">
+                                </div>
+                            </div>
+                            <div class="price">
+                                 <h3 class="title">Price Per Coin</h3>
+                                <div class="input-wrapper">
+                                    <input placeholder="" type="text" class="input-price">
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="data-fee-notes">
+                            <div class="data"></div>
+                            <div class="fee">Fee</div>
+                             <div class="notes">Notes</div>
+                        </div>
+
+                         <div class="spent-box">
+                            <h3 class="title">Total Spent</h3>
+                            <div class="total-spent">0$</div>
+                        </div>
+                    </div>
+
+                    <div class="transfer-block"></div>
+
+                    <button formaction="/transaction-handler" type="submit" class="btn__add-transaction">Add Transaction</button>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <script type="module" src="{{ url_for('static', filename='js/search.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/transaction.js') }}"></script>
+
+</body>
+</html>
