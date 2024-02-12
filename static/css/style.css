@@ -290,6 +290,9 @@ body{
                 width: 40%;
                 .title{
                     margin-left: 20px;
+                    color: white;
+                    font-family: "Montserrat";
+                    font-weight: bold;
                 }
             }
             .crypto-box{
@@ -775,6 +778,9 @@ body{
     }
 
     .active{
+        background-color: #110d17;
+    }
+    .active-click{
         background-color: #110d17;
     }
 

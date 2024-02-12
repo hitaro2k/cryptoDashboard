@@ -17,7 +17,7 @@
                     <input id="user-input" class="title" placeholder="Search assets and transactions">
 
                     <p class="name"> {{ name }} </p>
-                    <p class="idusers"> {{ idusers }}</p>
+                    <p class="idusers"> {{ user_id }}</p>
 
                 </div>
 
@@ -46,7 +46,7 @@
                     <div class="top">
                         <div class="title-current">
                             <h3 class="title">Current Balance</h3>
-                            <p id="totalValue" class="price-title"></p>
+                            <p id="totalValue" class="price-title">{{ total_amount }}</p>
                         </div>
                         <p class="title"></p>
 
@@ -58,7 +58,9 @@
                 <div class="box__total-sell">
                      <div class="title-current">
                             <h3 class="title">Total Sell</h3>
-                            <p class="price-title">--$</p>
+                            <p class="price-title">
+                               ${{ negative_sum }}
+                            </p>
                      </div>
 
                 </div>
@@ -66,7 +68,9 @@
                 <div class="box__total-buy">
                       <div class="title-current">
                             <h3 class="title">Total Buy</h3>
-                            <p class="price-title">--$</p>
+                            <p class="price-title">
+                               ${{ positive_sum }}
+                            </p>
                      </div>
 
                 </div>
@@ -95,6 +99,10 @@
                 <div class="crypto-box recent-box">
                       <h3  style="color: white; font-weight: normal;" class="title recent-title">Recent Opeartions</h3>
 
+                       {% for transaction in recent_transactions %}
+
+                            <p class="title">{{ transaction.amount }} {{ transaction.crypto }}</p>
+                       {% endfor %}
                 </div>
 
             </div>
@@ -130,9 +138,8 @@
                 </div>
                     <div class="setbar">
                         <ul class="setbar-list">
-                            <li class="list-item setbar-item">Buy</li>
-                            <li class="list-item setbar-item">Sell</li>
-                            <li class="list-item setbar-item">Transfer</li>
+                            <li class="list-item setbar-item active-click unactive-click" id="buy-btn">Buy</li>
+                            <li class="list-item setbar-item unactive-click" id="sell-btn">Sell</li>
                         </ul>
                     </div>
 
@@ -162,7 +169,7 @@
                             <div class="fee">Fee</div>
                              <div class="notes">Notes</div>
                         </div>
-
+F
                          <div class="spent-box">
                             <h3 class="title">Total Spent</h3>
                             <div class="total-spent">0$</div>

@@ -141,10 +141,39 @@ addTransactionBtn.onclick = ()=>{
 }
 
 function transactionOption(){
-    const coinName = document.querySelector('.buy-block__crypto-title').textContent
-    const totalSent = document.querySelector('.total-spent').textContent
-    const idReceipter = document.querySelector('.idusers').textContent
-    const resArray = [18 , parseInt(totalSent) , coinName ]
+    const coinName = document.querySelector('.buy-block__crypto-title').textContent;
+    let totalSent = document.querySelector('.input-quantity').value;
+    const idReceipter = document.querySelector('.idusers').textContent;
+    const checkBtn = document.querySelector("#sell-btn")
+
+    // Сумма аккаунта
+    const totalAmountSum = document.getElementById('totalValue').textContent;
+    // Cумма акаакунта в флоат
+    const totalAmountInt = parseFloat(totalAmountSum)
+
+    // Кол-во монет
+    const totalSentInt = parseFloat(totalSent)
+
+    const totalAmountEl = document.getElementById('totalValue');
+    // Цена монеты
+    const totalSumEl = document.querySelector(".input-price").textContent
+    const totalSumElInt = parseFloat(totalSumEl)
+
+    // Общая сумма (умножения кол-во монет на сумму за 1 монету)
+    let totalSum = totalSumElInt * totalSentInt
+
+    const totalBalance = document.querySelector("#totalValue").textContent
+    let totalBalanceInt = 0;
+    const sellBtn = document.querySelector("#sell-btn")
+
+   totalSum = (sellBtn.classList.contains("active-click")) ? -totalSum : totalSum;
+
+   totalBalanceInt = parseFloat(totalBalance) + totalSum;
+
+   totalSent = checkBtn.classList.contains("active-click") ? -parseFloat(totalSent) : parseFloat(totalSent);
+
+    // Айди Кол-во Монет Название Баланс
+    const resArray = [parseFloat(idReceipter) , parseFloat(totalSent), coinName ,totalBalanceInt ];
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/transaction-handler", true);
@@ -153,14 +182,62 @@ function transactionOption(){
     xhr.onload = function () {
         if (xhr.status === 200) {
             console.log("Data successfully sent to Python");
+            updatePageData(totalSent)
+             closeForm()
         } else {
-            console.error("Error sending data to Python");
+            console.error("Error sending data to Python", resArray);
         }
-
     };
+
     xhr.send(JSON.stringify({data: resArray}));
+}
+function updatePageData(totalSent) {
+    // Сумма аккаунта
+    const totalAmountSum = document.getElementById('totalValue').textContent;
+    // Cумма акаакунта в флоат
+    const totalAmountInt = parseFloat(totalAmountSum)
+
+    // Кол-во монет
+    const totalSentInt = parseFloat(totalSent)
+
+    const totalAmountEl = document.getElementById('totalValue');
+    // Цена монеты
+    const totalSumEl = document.querySelector(".input-price").textContent
+    const totalSumElInt = parseFloat(totalSumEl)
+
+
+    // Общая сумма (умножения кол-во на сумму за 1 монету)
+    const totalSum = totalSumElInt * totalSentInt
+
+    totalAmountEl.textContent =  totalSum + totalAmountInt;
 
 }
+
+function closeForm() {
+
+    const formElement = document.querySelector('.add_transaction');
+    const buyForm = document.querySelector(".buy-block")
+    buyForm.reset()
+    formElement.style.display = 'none';
+}
+
+document.addEventListener("DOMContentLoaded" , ()=>{
+    const setbarBuyBtn = document.querySelector("#buy-btn")
+    const setbarSellBtn = document.querySelector("#sell-btn")
+
+    setbarBuyBtn.onclick = ()=>{
+        if(setbarSellBtn.classList.contains("unactive-click")){
+           setbarBuyBtn.classList.add("active-click")
+           setbarSellBtn.classList.remove("active-click")
+        }
+    }
+    setbarSellBtn.onclick = ()=>{
+        if(setbarBuyBtn.classList.contains("unactive-click")){
+            setbarSellBtn.classList.add("active-click")
+            setbarBuyBtn.classList.remove("active-click")
+        }
+    }
+})
 
 
 setDataTransaction()
