@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/web3@1.3.0/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -12,9 +13,10 @@
     <div class="wrapper">
         <div class="container">
             <div class="search-stroke">
-                <div class="top">
+                <div id="search-stroke__top" class="top">
                     <img class="search-img" src="{{ url_for('static', filename='img/search.png') }}">
-                    <input id="user-input" class="title" placeholder="Search assets and transactions">
+                    <input id="user-input" class="title" placeholder="Search transaction form to search(BTC USDT)">
+
 
                     <p class="name"> {{ name }} </p>
                     <p class="idusers"> {{ user_id }}</p>
@@ -26,7 +28,7 @@
 
              <div class="wrapper-box">
                  <h2 class="title">Cryptocurrencies</h2>
-                 <p class="subtitle">Your crypto which one you had in your account</p>
+                 <p id = "idAccount" class="subtitle">Your crypto which one you had in your account</p>
                  <div class="wrapper-crypto">
                      {% for crypto_info in crypto_info_list %}
                         <div class="crypto-info">
@@ -51,8 +53,8 @@
                         <p class="title"></p>
 
                     </div>
-
-                    <button class="button">Connect Wallet</button>
+                    <button  class="button" id = "disconnectWallet">Disconnect wallet</button>
+                    <button  class="button" id = "connectWallet">Connect Wallet</button>
                 </div>
 
                 <div class="box__total-sell">
@@ -222,7 +224,7 @@ F
 
     </div>
 
-
+    <script type="module" src="{{ url_for('static', filename='js/wallet.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/search.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/transaction.js') }}"></script>

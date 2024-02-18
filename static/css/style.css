@@ -49,6 +49,10 @@ body{
                     margin-left: 10px;
                     color: white;
                 }
+                .redirect-link{
+                    color: white;
+                    text-decoration: none;
+                }
             }
             .search-stroke__list{
                 width: 90%;
@@ -175,6 +179,7 @@ body{
                 }
 
                 .button{
+                    display: block;
                     cursor: pointer;
                     border:none;
                     border-radius: 10px;
@@ -185,6 +190,12 @@ body{
                     margin-top: 20px;
                     padding: 10px;
                     margin-bottom: 20px;
+
+
+                }
+
+                #disconnectWallet{
+                    display: none ;
                 }
                 .chart-container {
                     position: relative;
@@ -783,5 +794,7 @@ body{
     .active-click{
         background-color: #110d17;
     }
-
+    .active-btn{
+        display: block !important;
+    }
 }
