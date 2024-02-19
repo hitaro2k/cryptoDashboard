@@ -15,7 +15,7 @@ function getAccount(){
         connectWalletButton.style.display = "none"
         disconnectWalletButton.classList.add('active-btn')
         idAccountEl.textContent = localStorage.getItem("key")
-        window.location.href = "/auth1-wallet"
+        window.location.href = "/auth1/wallet"
       } catch (error) {
         console.error('Ошибка при подключении к кошельку:', error);
       }
@@ -30,7 +30,7 @@ function getAccount(){
     connectWalletButton.style.display = "block"
     localStorage.removeItem("key")
     idAccountEl.textContent = "Your wallet account"
-    window.location.href = "/auth1-offline"
+    window.location.href = "/auth1/offline"
   });
 
   idAccountEl.textContent = localStorage.getItem("key")
@@ -45,16 +45,16 @@ function checkState(){
   link.textContent = 'Login';
   link.classList.add('redirect-link');
 
-  // if(currentPath.includes("/auth1-offline")){
-  //    searchStrokeTop.appendChild(link)
-  //    localStorage.setItem("state" , "wallet")
-  //    connectWalletButton.style.display = "none"
-  //    disconnectWalletButton.classList.add('active-btn')
-  // }else{
-  //     localStorage.setItem("state" , "offline")
-  //     connectWalletButton.style.display = "block"
-  //     disconnectWalletButton.classList.remove('active-btn')
-  // }
+  if(!currentPath.includes("/auth1/offline")){
+     searchStrokeTop.appendChild(link)
+     localStorage.setItem("state" , "wallet")
+     connectWalletButton.style.display = "none"
+     disconnectWalletButton.classList.add('active-btn')
+  }else{
+      localStorage.setItem("state" , "offline")
+      connectWalletButton.style.display = "block"
+      disconnectWalletButton.classList.remove('active-btn')
+  }
 }
 
 async function getEthBalance() {

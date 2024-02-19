@@ -298,13 +298,35 @@ body{
                 width: 50%;
             }
             .recent-box{
+                display: flex;
+                flex-direction: column;
                 width: 40%;
                 .title{
                     margin-left: 20px;
-                    color: white;
-                    font-family: "Montserrat";
-                    font-weight: bold;
                 }
+                .crypto-block{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    gap: 0px 20px;
+                    .title-amount{
+                        color: white;
+                        font-family: "Montserrat";
+                        font-weight: bold;
+                        margin-left: 20px;
+                    }
+                    .title-crypto{
+                        color: white;
+                        font-family: "Montserrat";
+                        font-weight: bold;
+                    }
+                    .title-data{
+                        color: white;
+                        font-family: "Montserrat";
+                        font-weight: bold;
+                    }
+                }
+
             }
             .crypto-box{
                 background-color: #151527;

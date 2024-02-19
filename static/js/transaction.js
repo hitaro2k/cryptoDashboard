@@ -171,9 +171,10 @@ function transactionOption(){
    totalBalanceInt = parseFloat(totalBalance) + totalSum;
 
    totalSent = checkBtn.classList.contains("active-click") ? -parseFloat(totalSent) : parseFloat(totalSent);
-
+    const data = document.querySelector(".data").textContent
+    console.log(data)
     // Айди Кол-во Монет Название Баланс
-    const resArray = [parseFloat(idReceipter) , parseFloat(totalSent), coinName ,totalBalanceInt ];
+    const resArray = [parseFloat(idReceipter) , parseFloat(totalSent), coinName ,totalBalanceInt , data];
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/transaction-handler", true);

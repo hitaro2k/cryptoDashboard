@@ -2,18 +2,15 @@ let userInputArr = [];
 const userInput = document.querySelector("#user-input");
 const searchList = document.querySelector(".search-stroke__list");
 
-userInput.oninput = (event) => {
-  const item = event.data;
-  if (item) {
-    userInputArr.length === 0 ? userInputArr.push(item) : userInputArr[0] += item;
+userInput.addEventListener('input', async (event) => {
+  const searchString = event.target.value.trim();
+  if (searchString.length > 0) {
+    const response = await fetch(`/search-transaction?searchString=${searchString}`);
+    const data = await response.json();
 
-    console.log(userInputArr);
-
-    if (userInputArr[0].length >= 3) {
-      fetchData(userInputArr[0]);
-    }
+    renderList(data)
   }
-};
+});
 
 // userInput.onkeydown = (event) => {
 //   if (event.key === "Backspace") {
@@ -28,18 +25,33 @@ userInput.oninput = (event) => {
 //     console.log('ebr')
 // }
 
-async function fetchData(symbol) {
+function fetchData(coin) {
+  fetch('/search-transaction', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ coin: coin })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
 
+  })
+  .catch(error => {
+    console.error('Ошибка при выполнении запроса:', error);
+  });
 }
 
 function renderList(data) {
-    searchList.innerHTML = '';
     const ul = document.createElement('ul');
-    const liName = document.createElement("li")
-    const liLink = document.createElement("a")
 
+    data.forEach(transaction => {
+        const li = document.createElement('li');
+        li.textContent = `Amount: ${transaction.amount}`;
+        ul.appendChild(li);
+    });
 
+    searchList.innerHTML = '';
     searchList.appendChild(ul);
-    ul.appendChild(liLink)
-    ul.appendChild(liName)
 }

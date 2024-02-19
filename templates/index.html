@@ -101,10 +101,19 @@
                 <div class="crypto-box recent-box">
                       <h3  style="color: white; font-weight: normal;" class="title recent-title">Recent Opeartions</h3>
 
-                       {% for transaction in recent_transactions %}
+                        {% for transaction in recent_transactions %}
+                            <div class="crypto-block">
+                                <p class="title-amount">{{ transaction.amount }}  </p>
+                                <p class="title-crypto">{{ transaction.crypto }}</p>
+                                {% if transaction.data is none %}
+                                    <p class="title-data">-</p>
+                                {% else %}
+                                    <p class="title-data">{{ transaction.data }}</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
 
-                            <p class="title">{{ transaction.amount }} {{ transaction.crypto }}</p>
-                       {% endfor %}
+
                 </div>
 
             </div>

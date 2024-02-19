@@ -25,6 +25,7 @@ class Transaction(db.Model):
     amount = db.Column(db.Float, nullable=False)
     crypto = db.Column(db.String(50), nullable=False)
     balance = db.Column(db.Integer, nullable=False)
+    data = db.Column(db.String(255), nullable=False)
 
     def __repr__(self):
         return '<Transaction %r>' % self.id
@@ -44,6 +45,10 @@ def get_total_transactions(receipt):
 
     return total_amount
 
+def get_wallet_crypto():
+    return
+
+
 
 def get_crypto(receipt):
     crypto_assets = Transaction.query.filter_by(receipt=receipt).with_entities(Transaction.crypto).distinct().all()
@@ -61,6 +66,25 @@ def get_transactions_by_user(user_id):
 def get_recent_transactions(user_id, limit=5):
     transactions = Transaction.query.filter_by(receipt=user_id).order_by(Transaction.id.desc()).limit(limit).all()
     return transactions
+
+
+def get_recent_transactions_data(user_id):
+    data = Transaction.query.filter_by(receipt=user_id)
+    return data.all()
+
+
+@app.route('/search-transaction', methods=["GET"])
+def search_transaction():
+    search_string = request.args.get('searchString').upper()
+    user_id = session.get('user_id')
+
+    transactions = Transaction.query.filter_by(crypto=search_string).filter_by(receipt=user_id).all()
+
+    filtered_transactions = [
+        {'id': t.id, 'receipt': t.receipt, 'amount': t.amount, 'crypto': t.crypto, 'balance': t.balance, 'data': t.data}
+        for t in transactions]
+
+    return jsonify(filtered_transactions)
 
 
 @app.route('/')
@@ -137,7 +161,7 @@ def login_handler():
         if user and user.password == password:
             session['user_id'] = user.id
             session['user_name'] = user.name
-            return redirect("/auth1-offline")
+            return redirect("/auth1/offline")
         else:
             return "Wrong email or password"
     except Exception as e:
@@ -149,8 +173,8 @@ def login_handler():
 def transaction_handler():
     try:
         data = request.json.get('data')
-        receipt, amount, crypto, balance = data
-        transaction = Transaction(receipt=receipt, amount=amount, crypto=crypto , balance = balance)
+        receipt, amount, crypto, balance, dataTransaction = data
+        transaction = Transaction(receipt=receipt, amount=amount, crypto=crypto, balance = balance, data = dataTransaction)
         db.session.add(transaction)
         db.session.commit()
 
@@ -178,7 +202,7 @@ def auth1_offline():
     negative_sum, positive_sum = get_transactions_by_user(user_id)
 
     recent_transactions = get_recent_transactions(user_id)
-
+    data = get_recent_transactions_data(user_id)
     crypto_assets_symbols = \
         ['USDT', 'BTC', 'ETH', 'BNB', 'EOS',
          'XRP', 'APT', 'SOL', 'ADA',
@@ -203,7 +227,8 @@ def auth1_offline():
                                    total_amount=total_amount,
                                    negative_sum=negative_sum,
                                    positive_sum=positive_sum,
-                                   recent_transactions=recent_transactions
+                                   recent_transactions=recent_transactions,
+                                   data=data
                                    )
         else:
             return render_template('index.html', crypto_info_list=crypto_info_list,
@@ -214,16 +239,8 @@ def auth1_offline():
 @app.route('/auth1/wallet')
 def authWallet():
 
+    return render_template('index.html')
 
-
-    crypto_arr = get_wallet_crypto(user_id)
-    crypto_symbols = crypto_arr
-    crypto_info_list = get_crypto_info(crypto_symbols)
-
-
-    if crypto_info_list is not None:
-        return render_template('index.html', crypto_info_list=crypto_info_list,
-        )
 
 
 
