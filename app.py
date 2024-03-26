@@ -89,7 +89,7 @@ def search_transaction():
 
 @app.route('/')
 def index():
-    return render_template(index.html)
+    return render_template("index.html")
 
 
 @app.before_request
@@ -236,9 +236,9 @@ def auth1_offline():
     else:
         return render_template('index.html')
 
+
 @app.route('/auth1/wallet')
 def authWallet():
-
     return render_template('index.html')
 
 
